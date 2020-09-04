@@ -18,12 +18,14 @@ function makePageForEpisodes(episodeList) {
   body.prepend(searchBar);
   body.prepend(label);
 
-  searchBar.addEventListener('keyup', function(e) {
-    const textEnter = e.target.value.toLowerCase();
+  searchBar.addEventListener('keyup', function(event) {
+    const textEnter = event.target.value.toLowerCase();
     const episodeName = episodeList.name.toLowerCase();
     const episodeSummary = episodeList.summary.toLowerCase();
     episodeList.filter(()=>{
-      return episodeList.name.includes(searchInput) || episodeList.summary.includes(searchInput);
+      if(episodeName.indexOf(textEnter) !== -1|| episodeSummary.indexOf(textEnter) !== -1){
+        console.log(episodeName, episodeSummary);
+      }
     });
   });
 
