@@ -1,15 +1,39 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+input[type="text"], label {
+  margin: 2rem;
+  font-size: 1.2rem;
+}
 #root {
-  color: red;
+  color: rgb(77, 74, 74);
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   width: 90%;
   margin: 0 auto;
+  font-size: 1.1rem;
+
 }
 .card {
   max-width: 300px;
-  /* height: 300px; */
-  border: 1px solid blue;
+  height: 450px;
+  border-radius: 15px;
+  background: #f8f4fb;
+  box-shadow: 5px 5px 10px #a6a3a8, -5px -5px 10px #ffffff;
   margin: 3rem 1rem;
-  padding:.5rem;
-  
+  padding: .6rem;
+  background-color: rgb(212, 210, 216);
+}
+.heading {
+  text-align: center;
+  letter-spacing: .5px;
+}
+
+.moviePoster {
+  display: block;
+  margin: auto;
 }
