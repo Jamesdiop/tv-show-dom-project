@@ -3,33 +3,22 @@ function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
 }
+// search bar and label
+const label = document.createElement('label').textContent = "Search bar: ";
+const searchBar = document.createElement('input');
+searchBar.setAttribute('type', 'text');
+searchBar.setAttribute('placeholder', 'Search episodes ...');
+searchBar.setAttribute('size', '50');
+searchBar.setAttribute('style', 'height:2rem, font-size:1.4rem');
+body.prepend(label);
+body.prepend(searchBar);
+
+
 
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
-  const body = document.querySelector('body');
-  const label = document.createElement('label').textContent = "Search bar: ";
-  const searchBar = document.createElement('input');
   //rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 
-  searchBar.setAttribute('type', 'text');
-  searchBar.setAttribute('placeholder', 'Search episodes ...');
-  searchBar.setAttribute('size', '50');
-  searchBar.setAttribute('style', 'height:2rem, font-size:1.4rem');
-  body.prepend(searchBar);
-  body.prepend(label);
-
-  searchBar.addEventListener('keyup', function(event) {
-    const textEnter = event.target.value.toLowerCase();
-    const episodeName = episodeList.name.toLowerCase();
-    const episodeSummary = episodeList.summary.toLowerCase();
-    episodeList.filter(()=>{
-      if(episodeName.indexOf(textEnter) !== -1|| episodeSummary.indexOf(textEnter) !== -1){
-        console.log(episodeName, episodeSummary);
-      }
-    });
-  });
-
- 
   // create content for each movie card
   episodeList.forEach((element) => {
     // create different tags
@@ -66,5 +55,15 @@ function makePageForEpisodes(episodeList) {
 
   });
 }
+
+searchBar.addEventListener('keyup', function (event) {
+  const textEnter = event.target.value;
+  makePageForEpisodes(filteredEpisodes);
+  let filteredEpisodes = episodeList.filter(x => {
+    return x.name.toLowerCase().contains(textEnter.toLowerCase()) || x.summary.toLowerCase().contains(textEnter.toLowerCase());
+  }
+  
+)});
+
 
 window.onload = setup;
