@@ -12,17 +12,45 @@ body.prepend(searchBar);
 
   // Count episodes and display them
   const countEpisode = document.createElement("p");
+  countEpisode.setAttribute('id', 'episodeCount');
   body.prepend(countEpisode);
  
 
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
-  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
   displayAllEpisodes(episodeList);
   searchEpisodes();
+  selectEpisodes(episodeList);
+  displayEpisodesFound(episodeList);
 }
 
+
+//create select to display episodes
+const select = document.querySelector("#selectEp");
+function selectEpisodes(episodeList) {
+  episodeList.forEach((element) => {
+    const option = document.createElement("option");
+    select.appendChild(option);
+    const episodeCode = `S0${element.season}E0${element.number}`;
+    option.innerHTML = `${element.name} - ${episodeCode}`;
+  });  
+}
+
+// display episode selected
+ select.addEventListener('change', (event)=> {
+   let selection = event.target.value;
+   let splitSelect = selection.split(' -');
+   searchBar.value = splitSelect[0];
+})
+
+
+
+
+
+
+
 function displayAllEpisodes(episodeList) {
+  rootElem.innerHTML='';
   // create content for each movie card
   return episodeList.forEach((element) => {
     //create different tags
@@ -54,6 +82,7 @@ function displayAllEpisodes(episodeList) {
 
 // Search episodes
 function searchEpisodes() {
+  rootElem.innerHTML = "";
   const allEpisodes = getAllEpisodes(); 
   let input = searchBar.value.toLowerCase();
   if(input.length === 0) {
@@ -75,26 +104,17 @@ function displayEpisodesFound() {
   rootElem.innerHTML = "";
   const episodesFound = searchEpisodes();
   console.log(displayAllEpisodes(episodesFound));
-
-
-  // countEpisode.textContent = `Got ${episodesFound.length} / ${episodeList.length} episode(s)`;
   countEpisode.textContent = `Got ${episodesFound.length} / ${getAllEpisodes().length} episode(s)`;
 
   return displayAllEpisodes(episodesFound);
 }
 
-// function displayNumOfEpisodes(episodes) {
-//   // Count episodes and display them
-  
-//   return countEpisode.textContent = `Got ${episodesFound.length} / ${episodeList.length} episode(s)`;
-// }
 
 
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
   searchBar.addEventListener("keyup", displayEpisodesFound);
-
   countEpisode.textContent = `Got ${allEpisodes.length} / ${allEpisodes.length} episode(s)`;
 }
 
