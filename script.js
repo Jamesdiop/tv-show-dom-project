@@ -109,13 +109,23 @@ function displayEpisodesFound() {
   return displayAllEpisodes(episodesFound);
 }
 
-
+function addErrorPage() {
+  
+}
 
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
   searchBar.addEventListener("keyup", displayEpisodesFound);
   countEpisode.textContent = `Got ${allEpisodes.length} / ${allEpisodes.length} episode(s)`;
+
+  fetch("https://api.tvmaze.com/shows/82/episodes").then((response) =>
+    response.json()
+      .then(data => console.log(data))
+      .then((allEpisodes) => makePageForEpisodes(allEpisodes))
+      .catch((error) => addErrorPage(error))
+  );
+
 }
 
 window.onload = setup;
