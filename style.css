@@ -1,3 +1,51 @@
+
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+}
+input[type="text"] {
+  margin: 2rem;
+  font-size: 1.2rem;
+  max-width: 400px;
+}
 #root {
-  color: red;
+  color: rgb(223, 227, 230);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 1.1rem;
+}
+.card {
+  max-width: 250px;
+  /*height: 450px; */
+  border-radius: 15px;
+  box-shadow: 5px 5px 10px #f3eff5, -5px -5px 10px #ffffff;
+  margin: 3rem 1rem;
+  padding: 0.6rem;
+  background-color: rgb(51, 50, 54);
+}
+#episodeCount {
+  color: black;
+  margin: 2rem;
+}
+
+.heading {
+  text-align: center;
+  letter-spacing: 0.5px;
+  color: rgb(167, 202, 233);
+  font-weight: 700;
+}
+a {
+   text-decoration: none;
+}
+
+.moviePoster {
+  display: block;
+  margin: auto;
 }
