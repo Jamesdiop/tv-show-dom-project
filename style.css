@@ -1,11 +1,16 @@
 
 
 body {
+  background-color: rgb(80, 117, 219);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   color: white;
 }
+.container {
+  display: flex;
+}
+
 input[type="text"] {
   margin: 2rem;
   font-size: 1.2rem;
@@ -25,14 +30,16 @@ input[type="text"] {
   max-width: 250px;
   /*height: 450px; */
   border-radius: 15px;
-  box-shadow: 5px 5px 10px #f3eff5, -5px -5px 10px #ffffff;
   margin: 3rem 1rem;
   padding: 0.6rem;
   background-color: rgb(51, 50, 54);
+  font-size: 1rem;
 }
 #episodeCount {
   color: black;
   margin: 2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .heading {
@@ -48,4 +55,21 @@ a {
 .moviePoster {
   display: block;
   margin: auto;
+}
+#show_dropdown, #searchBar, select {
+	display: block;
+	font-size: 1rem;
+	font-weight: 700;
+	color: rgb(46, 44, 44);
+	line-height: 1.1;
+	padding: .4rem;
+	width: 300px;
+	max-width: 70%;
+	box-sizing: border-box;
+	margin: 1rem;
+	border-radius: .3em;
+	appearance: none;
+	background-color: #fff;
+	background-repeat: no-repeat, repeat;
+	background-size: .65em auto, 100%;
 }

@@ -1,12 +1,13 @@
 //You can edit ALL of the code here
 const rootElem = document.querySelector('#root');
+const showDropDown = document.querySelector("#show_dropdown");
 
 // search bar 
 const body = document.querySelector('body');
 const searchBar = document.createElement('input');
 searchBar.setAttribute('type', 'text');
 searchBar.setAttribute('placeholder', 'Search episodes ...');
-searchBar.setAttribute('size', '50');
+searchBar.setAttribute('id', 'searchBar');
 searchBar.setAttribute('style', 'height:2rem, font-size:1.4rem');
 body.prepend(searchBar);
 
@@ -14,14 +15,67 @@ body.prepend(searchBar);
   const countEpisode = document.createElement("p");
   countEpisode.setAttribute('id', 'episodeCount');
   body.prepend(countEpisode);
- 
+
+
+function setup() {
+  //order list
+  let allShows = getAllShows().sort((a, b) => {
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1;
+    } else if (b.name.toLowerCase() > a.name.toLowerCase()) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+
+    //showTV(searchBar.value)
+    console.log( searchBar.value)
+
+  const allEpisodes = getAllEpisodes();
+  //const allEpisodes = showtv();
+  console.log(allEpisodes);
+  makePageForShow(allShows)
+  //makePageForEpisodes(allEpisodes);
+  searchBar.addEventListener("keydown", displayEpisodesFound);
+  countEpisode.textContent = `Got ${allEpisodes.length} / ${allEpisodes.length} episode(s)`;
+
+  // creates show DropDown Options
+  allShows.forEach((show) => {
+    showDropDown.innerHTML += `
+    <option  value= "${show.id}">
+    ${show.name}
+    </option>
+   `;
+  });
+}
+
+function showTV(show) {
+  // const url= `http://api.tvmaze.com/search/shows?q=${showTitle}`
+  // fetch(url)
+  console.log(show)
+  fetch(`https://api.tvmaze.com/shows/${show}/episodes`)
+    .then((response) =>  response.json())
+    .then((data) => {
+      const results = data.map(el => el.name);
+      console.log(data)
+      makePageForEpisodes(data)
+    })
+    .catch((error) => addErrorPage(error))
+}
+
+// eventListener for the show Dropdown
+showDropDown.addEventListener("change", (event) => showTV(event.target.value));
+
 
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
   displayAllEpisodes(episodeList);
-  searchEpisodes();
+  //allShows(episodeList);//test
+  //searchEpisodes();
   selectEpisodes(episodeList);
-  displayEpisodesFound(episodeList);
+  //  displayEpisodesFound(episodeList);
+  //makePageForShow(episodeList)
 }
 
 
@@ -43,13 +97,36 @@ function selectEpisodes(episodeList) {
    searchBar.value = splitSelect[0];
 })
 
+ function makePageForShow(shows) {
+   rootElem.innerHTML='';
+   shows.forEach((show) => {
+     let h3 = document.querySelector("h3")
+     let cardMovie = document.createElement("div");
+     let showEl = document.createElement("option");
+     let show_dropdown = document.getElementById("show_dropdown");
+    
+     show.image
+       ? (cardMovie.innerHTML += `
+        <h3>${show.name}</h3>
+        <img src=${show.image.medium} alt="">
+        ${show.summary ? show.summary : ""}
+        `)
+       : (cardMovie.innerHTML += `
+        <h3>${show.name}</h3>
+        ${show.summary ? show.summary : ""}`);
+     console.log(showEl);
+     rootElem.appendChild(cardMovie);
+   });
+ }
 
-
-
-
-
+// showDropDown.addEventListener("change", ()=> {
+//   console.log("For testing")
+//   makePageForEpisodes(episodeList)
+  
+// });
 
 function displayAllEpisodes(episodeList) {
+  
   rootElem.innerHTML='';
   // create content for each movie card
   return episodeList.forEach((element) => {
@@ -59,6 +136,7 @@ function displayAllEpisodes(episodeList) {
     const heading = document.createElement("h3");
     const moviePoster = document.createElement("img");
     const summary = document.createElement("p");
+    
     //append them
     rootElem.appendChild(cardMovie);
     cardMovie.appendChild(linkToMovie);
@@ -106,26 +184,16 @@ function displayEpisodesFound() {
   console.log(displayAllEpisodes(episodesFound));
   countEpisode.textContent = `Got ${episodesFound.length} / ${getAllEpisodes().length} episode(s)`;
 
-  return displayAllEpisodes(episodesFound);
+   return displayAllEpisodes(episodesFound);
+
 }
 
 function addErrorPage() {
   
 }
 
-function setup() {
-  const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
-  searchBar.addEventListener("keyup", displayEpisodesFound);
-  countEpisode.textContent = `Got ${allEpisodes.length} / ${allEpisodes.length} episode(s)`;
 
-  // fetch("https://api.tvmaze.com/shows/82/episodes").then((response) =>
-  //   response.json()
-  //     .then(data => console.log(data))
-  //     .then((allEpisodes) => makePageForEpisodes(allEpisodes))
-  //     .catch((error) => addErrorPage(error))
-  // );
 
-}
+ 
 
 window.onload = setup;
